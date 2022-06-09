@@ -1,3 +1,4 @@
+import pandas as pd
 
 def img_gray_to_dataframe(img):
     '''
@@ -15,5 +16,26 @@ def img_gray_to_dataframe(img):
         diccionario[clave] = valor
 
     df = pd.DataFrame([[key, diccionario[key]] for key in diccionario.keys()], columns=['Numero', 'Repeticiones'])
+
+    return df
+
+def img_rgb_to_dataframe(img):
+    '''
+
+    '''
+    rojo = img[:,:,0].flatten()
+    verde = img[:,:,1].flatten()
+    azul = img[:,:,2].flatten()
+    rgb = [rojo,verde,azul]
+
+    for color in rgb:
+        lista = color.tolist()
+        diccionario = {}
+        for elemento in lista:
+            clave = elemento
+            valor = lista.count(clave)
+            diccionario[clave] = valor
+
+        df = pd.DataFrame([[key, diccionario[key]] for key in diccionario.keys()], columns=['Numero', 'Repeticiones'])
 
     return df
