@@ -1,3 +1,6 @@
+import pandas as pd
+import plotly.express as px
+import plotly.figure_factory as ff
 
 def img_gray_plot (img):
     diccionario = {}
