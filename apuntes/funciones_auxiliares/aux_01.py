@@ -1,10 +1,7 @@
 import pandas as pd
+import plotly.figure_factory as ff
 
-def img_gray_to_dataframe(img):
-    '''
-    Pasamos de una matriz con valores de entre 0 y 255 a un dataframe con los valores unicos y sus repeticiones
-    para poder plotearlo con plotly de manera mucho mas sencilla y con zoom
-    '''
+def img_gray_to_dataframe (img):
     diccionario = {}
 
     intensidades = img.flatten()
@@ -16,26 +13,23 @@ def img_gray_to_dataframe(img):
         diccionario[clave] = valor
 
     df = pd.DataFrame([[key, diccionario[key]] for key in diccionario.keys()], columns=['Numero', 'Repeticiones'])
+    fig = px.bar(df_ejemplo, x='Numero', y='Repeticiones')
 
-    return df
+    return fig.show()
 
-def img_rgb_to_dataframe(img):
-    '''
+def img_rgb_plot (img):
+    r = img[:,:,0].flatten()
+    g = img[:,:,1].flatten()
+    b = img[:,:,2].flatten()
 
-    '''
-    rojo = img[:,:,0].flatten()
-    verde = img[:,:,1].flatten()
-    azul = img[:,:,2].flatten()
-    rgb = [rojo,verde,azul]
+    # Group data together
+    hist_data = [r, g, b]
 
-    for color in rgb:
-        lista = color.tolist()
-        diccionario = {}
-        for elemento in lista:
-            clave = elemento
-            valor = lista.count(clave)
-            diccionario[clave] = valor
+    colors = ['red', 'green', 'blue']
+    group_labels = ['Red', 'Green', 'Blue']
 
-        df = pd.DataFrame([[key, diccionario[key]] for key in diccionario.keys()], columns=['Numero', 'Repeticiones'])
-
-    return df
+    # Create distplot with custom bin_size
+    # fig = ff.create_distplot(hist_data, group_labels, bin_size=255, colors=colors)
+    fig = ff.create_distplot(hist_data, group_labels, show_hist=True, colors=colors)
+    
+    return fig.show()
