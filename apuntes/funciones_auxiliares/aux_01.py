@@ -1,7 +1,5 @@
-import pandas as pd
-import plotly.figure_factory as ff
 
-def img_gray_to_dataframe (img):
+def img_gray_plot (img):
     diccionario = {}
 
     intensidades = img.flatten()
@@ -13,7 +11,7 @@ def img_gray_to_dataframe (img):
         diccionario[clave] = valor
 
     df = pd.DataFrame([[key, diccionario[key]] for key in diccionario.keys()], columns=['Numero', 'Repeticiones'])
-    fig = px.bar(df_ejemplo, x='Numero', y='Repeticiones')
+    fig = px.bar(df, x='Numero', y='Repeticiones')
 
     return fig.show()
 
